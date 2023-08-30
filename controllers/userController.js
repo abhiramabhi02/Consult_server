@@ -7,6 +7,7 @@ const Appointment = require("../models/appointments");
 const Preferences = require("../models/preferences");
 const { ObjectId } = require("mongodb");
 require("dotenv").config();
+const config = require('../config/config')
 const Razorpay = require("razorpay");
 const { RtcTokenBuilder, RtcRole } = require("agora-access-token");
 const {
@@ -395,8 +396,8 @@ const getAllAppointment = async (req, res) => {
   }
 };
 
-const rzpKey = process.env.razorpayKey;
-const rzpSecret = process.env.razorpayPassword;
+const rzpKey = config.razorpay.key_id;
+const rzpSecret = config.razorpay.razorpayPassword;
 
 const razorpayInstance = new Razorpay({
   key_id: rzpKey,

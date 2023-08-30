@@ -10,6 +10,7 @@ router.post('/adminlogin', adminController.AdminLogin)
 //loading users in user management in admin side
 router.get('/adminusers', adminController.getAllUsers)
 
+//loading all the professionals
 router.get('/adminprofessionals',checkAuth, adminController.getAllProfessionals)
 
 router.post('/adminblockuser', adminController.blockUser)
