@@ -1,21 +1,22 @@
 const nodemailer = require('nodemailer')
+const config = require('../config/config')
 require('dotenv').config()
 
 const sendOtp = async (email, otp) => {
     try {
       const transporter = nodemailer.createTransport({
-        host: process.env.smtphost,
+        host: config.smtphost,
         port: 587,
         secure: false,
         requireTLS: true,
         auth: {
-          user: process.env.mailsmtp,
-          pass: process.env.mailPassSmtp,
+          user: config.mailsmtp,
+          pass: config.mailPassSmtp,
         },
       });
   
       const mailOptions = {
-        from: process.env.mailsmtp,
+        from: config.mailsmtp,
         to: email,
         subject: "For Verification mail",
         html:

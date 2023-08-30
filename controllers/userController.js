@@ -538,8 +538,8 @@ const getAppointmentData = async (req, res) => {
   }
 };
 
-const AgoraAppId = process.env.AgoraAppId;
-const agoraAppCertificate = process.env.agoraAppCertificate;
+const AgoraAppId = config.AgoraAppId;
+const agoraAppCertificate = config.agoraAppCertificate;
 
 const AgoraToken = async (req, res) => {
   const { channelName, uid } = req.query;
