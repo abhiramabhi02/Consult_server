@@ -3,7 +3,10 @@ const config = require('./config')
 require('dotenv').config()
 
 
-const connectdb = mongoose.connect(config.mongodbConnect)
+const connectdb = ()=>{
+    console.log(config.mongodbConnect, 'string');
+    mongoose.connect(config.mongodbConnect)
+}
 
 module.exports={
     connectdb
