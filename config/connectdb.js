@@ -3,9 +3,9 @@ const config = require('./config')
 require('dotenv').config()
 
 
-const connectdb = ()=>{
+const connectdb = async ()=>{
     console.log(config.mongodbConnect, 'string');
-    mongoose.connect(config.mongodbConnect)
+    await mongoose.connect(config.mongodbConnect)
 }
 
 module.exports={
