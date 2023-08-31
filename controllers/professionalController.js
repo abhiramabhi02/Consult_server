@@ -7,9 +7,11 @@ const otpGenerator = require("otp-generator");
 const mail = require("../helpers/sendMail");
 const Preferences = require("../models/preferences");
 const Appointments = require('../models/appointments')
+const config = require('../config/config')
 const { ObjectId } = require("mongodb");
 require('dotenv').config()
-const appointmentController = require('../controllers/appointment.Controller')
+const appointmentController = require('../controllers/appointment.Controller');
+// const { config } = require("dotenv");
 
 // professional registration with parameters name,email,profession, password.
 const professionalRegistration = async (req, res) => {
@@ -66,7 +68,7 @@ const professionalLogin = async (req, res) => {
           const payload = {
             proId: professional._id,
           };
-          Token = jwt.sign(payload, process.env.jwtSecret, {
+          Token = jwt.sign(payload, config.jwtSecret, {
             expiresIn: "60m",
           });
           res.send({

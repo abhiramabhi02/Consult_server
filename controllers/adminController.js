@@ -7,6 +7,7 @@ const ObjectId = require('mongodb').ObjectId;
 const mongoose = require('mongoose')
 const appointentcontrol = require('../controllers/appointment.Controller')
 require('dotenv').config()
+const config = require('../config/config')
 
 const AdminLogin = async(req,res)=>{
     const {email, password} = req.body
@@ -17,7 +18,7 @@ const AdminLogin = async(req,res)=>{
                 const payload = {
                     adminId: admin._id
                   }
-                  Token = jwt.sign(payload, process.env.jwtSecret, {
+                  Token = jwt.sign(payload, config.jwtSecret, {
                     expiresIn:'60m'
                   })
                   res.send({status:200, success:true, token:Token, message:"Admin login successful"})
