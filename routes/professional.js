@@ -29,4 +29,6 @@ router.post('/cancelappointment', professionalController.cancelAppointment)
 
 router.post('/getconferenceappointment', professionalController.getAppointmentData)
 
+router.post('/detailsupdation', professionalController.profileDetailsUpdation)
+
 module.exports = router;

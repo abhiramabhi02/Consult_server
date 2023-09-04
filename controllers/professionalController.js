@@ -11,6 +11,7 @@ const config = require('../config/config')
 const { ObjectId } = require("mongodb");
 require('dotenv').config()
 const appointmentController = require('../controllers/appointment.Controller');
+const professionals = require("../models/professionals");
 // const { config } = require("dotenv");
 
 // professional registration with parameters name,email,profession, password.
@@ -307,6 +308,24 @@ const getAppointmentData = async(req,res)=>{
   }
 }
 
+const profileDetailsUpdation = async(req,res)=>{
+  try {
+    const {id, specialisation, about} = req.body 
+    const professional = await professionals.findOneAndUpdate({_id:id},
+      {$set:{
+        Specialisation:specialisation,
+        About:about
+      }})
+      if(professional){
+        res.send({status:200, success:true, message:"Updation success"})
+      }else{
+        res.send({status:500, success:false, message:"Updation failed"})
+      }
+  } catch (error) {
+    res.send({status:500, success:false, message:error.message})
+  }
+}
+
 module.exports = {
   professionalRegistration,
   professionalLogin,
@@ -317,5 +336,6 @@ module.exports = {
   appointments,
   confirmAppointment,
   cancelAppointment,
-  getAppointmentData
+  getAppointmentData,
+  profileDetailsUpdation
 };

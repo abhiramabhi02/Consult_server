@@ -9,6 +9,12 @@ const professional = mongoose.Schema({
         type: String,
         required: true
     },
+    Specialisation:{
+        type:String
+    },
+    About:{
+        type:String
+    },
     Email:{
         type:String,
         required:true
