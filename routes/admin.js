@@ -23,5 +23,7 @@ router.post('/adminunblockuserprofessional', adminController.unblockProfessional
 
 router.get('/getappointments', adminController.getAppointments)
 
+router.get('/getdashboarddata', adminController.dashboardData)
+
 
 module.exports = router;
