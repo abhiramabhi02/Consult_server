@@ -571,6 +571,23 @@ const AgoraToken = async (req, res) => {
   res.json({ token: agoraToken });
 };
 
+const downloadDocument = async(req,res)=>{
+  try {
+    const id = req.body.id
+
+    const document = await Appointment.findOne({_id:id})
+    if(document){
+      let downloadUrl = document.Docs
+
+      res.send({status:200, success:true, url:downloadUrl, message:'fetched download url'})
+    }else{
+      res.send({status:500, success:false, message:"fetching failed"})
+    }
+  } catch (error) {
+    res.send({status:500, success:false, message:error.message})
+  }
+}
+
 module.exports = {
   userRegistration,
   userLogin,
@@ -588,4 +605,5 @@ module.exports = {
   AgoraToken,
   ConfirmAppointment,
   getAppointmentData,
+  downloadDocument
 };

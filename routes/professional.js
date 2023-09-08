@@ -31,4 +31,6 @@ router.post('/getconferenceappointment', professionalController.getAppointmentDa
 
 router.post('/detailsupdation', professionalController.profileDetailsUpdation)
 
+router.post('/documentupload', professionalController.documentUpload)
+
 module.exports = router;

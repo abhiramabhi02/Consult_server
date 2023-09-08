@@ -326,6 +326,26 @@ const profileDetailsUpdation = async(req,res)=>{
   }
 }
 
+const documentUpload = async(req,res)=>{
+  try {
+    const {id, url}  = req.body
+    const document = await Appointments.findOneAndUpdate({_id:id}, {
+      $set:{
+        Docs:url
+      }
+    })
+
+    if(document){
+      res.send({status:200, success:true, message:"successfully Updated"})
+    }else{
+      res.send({status:500, success:false, message:"Failed"})
+    }
+    
+  } catch (error) {
+    res.send({status:200, success:false, message:error.message})
+  }
+}
+
 module.exports = {
   professionalRegistration,
   professionalLogin,
@@ -337,5 +357,6 @@ module.exports = {
   confirmAppointment,
   cancelAppointment,
   getAppointmentData,
-  profileDetailsUpdation
+  profileDetailsUpdation,
+  documentUpload
 };

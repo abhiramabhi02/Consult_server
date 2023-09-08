@@ -40,4 +40,6 @@ router.post('/confirmappointment', userController.ConfirmAppointment)
 
 router.post('/getconferenceappointment', userController.getAppointmentData)
 
+router.post('/downloaddocument', userController.downloadDocument)
+
 module.exports = router;
