@@ -28,7 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors({
   origin: 'https://consultifydoc.netlify.app'
 }));
-// app.use(cors())
+
 
 
 
