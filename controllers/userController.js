@@ -7,14 +7,14 @@ const Appointment = require("../models/appointments");
 const Preferences = require("../models/preferences");
 const { ObjectId } = require("mongodb");
 require("dotenv").config();
-const config = require('../config/config')
+const config = require("../config/config");
 const Razorpay = require("razorpay");
 const { RtcTokenBuilder, RtcRole } = require("agora-access-token");
 const {
   validateWebhookSignature,
 } = require("razorpay/dist/utils/razorpay-utils");
 const crypto = require("crypto");
-const appointentcontrol = require('../controllers/appointment.Controller')
+const appointentcontrol = require("../controllers/appointment.Controller");
 
 const userRegistration = async (req, res) => {
   const { name, email, password, cpassword } = req.body;
@@ -373,9 +373,13 @@ const getAllAppointment = async (req, res) => {
   try {
     const id = req.body.id;
     const Id = new ObjectId(id);
-    const UserId = 'UserId'
+    const UserId = "UserId";
 
-    const appointment = await appointentcontrol.userProfessionalAppointment(Appointment, UserId ,Id)
+    const appointment = await appointentcontrol.userProfessionalAppointment(
+      Appointment,
+      UserId,
+      Id
+    );
     console.log(appointment, "app");
     if (appointment) {
       res.send({
@@ -571,22 +575,97 @@ const AgoraToken = async (req, res) => {
   res.json({ token: agoraToken });
 };
 
-const downloadDocument = async(req,res)=>{
+const downloadDocument = async (req, res) => {
   try {
-    const id = req.body.id
+    const id = req.body.id;
 
-    const document = await Appointment.findOne({_id:id})
-    if(document){
-      let downloadUrl = document.Docs
+    const document = await Appointment.findOne({ _id: id });
+    if (document) {
+      let downloadUrl = document.Docs;
 
-      res.send({status:200, success:true, url:downloadUrl, message:'fetched download url'})
-    }else{
-      res.send({status:500, success:false, message:"fetching failed"})
+      res.send({
+        status: 200,
+        success: true,
+        url: downloadUrl,
+        message: "fetched download url",
+      });
+    } else {
+      res.send({ status: 500, success: false, message: "fetching failed" });
     }
   } catch (error) {
-    res.send({status:500, success:false, message:error.message})
+    res.send({ status: 500, success: false, message: error.message });
+  }
+};
+
+const forgotPassword = async (req, res) => {
+  try {
+    const email = req.body.email;
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const user = await User.findOneAndUpdate(
+      { Email: email },
+      {
+        $set: {
+          Token: otp,
+        },
+      }
+    );
+    if (user) {
+      const Mail = mail.sendOtp(email, otp);
+      res.send({ status: 200, success: true, message: "user found" });
+    } else {
+      res.send({ status: 500, success: false, message: "user not found" });
+    }
+  } catch (error) {
+    res.send({ status: 500, success: false, message: error.message });
+  }
+};
+
+const verifyForgotOtp = async(req,res)=>{
+  try {
+    const {email, otp} = req.body
+    const Otp = String(otp.otp)
+    const user = await User.findOne({Email:email.email})
+    if(user){
+      if(Otp === user.Token){
+        res.send({status:true, success:true, message:"verification successful"})
+      }else{
+        res.send({status:500, success:false, message:"verfication failed"})
+      }
+    }else{
+      res.send({status:500, success:false, message:"verfication failed due to user"})
+    }
+  } catch (error) {
+    res.send({ status: 500, success: false, message: error.message });
   }
 }
+
+
+const changePassword = async (req, res) => {
+  try {
+    const { email, password, cpassword } = req.body;
+    if (password === cpassword) {
+      const user = await User.findOneAndUpdate(
+        { Email: email },
+        {
+          $set: {
+            Password: password,
+          },
+        }
+      );
+      if (user) {
+        res.send({ status: 200, success: true, message: "Password updated" });
+      }
+    } else {
+      res.send({
+        status: 500,
+        success: false,
+        message: "Password and Confirm password must be same",
+      });
+    }
+  } catch (error) {
+    res.send({ status: 500, success: false, message: error.message });
+  }
+};
 
 module.exports = {
   userRegistration,
@@ -605,5 +684,8 @@ module.exports = {
   AgoraToken,
   ConfirmAppointment,
   getAppointmentData,
-  downloadDocument
+  downloadDocument,
+  forgotPassword,
+  verifyForgotOtp,
+  changePassword
 };

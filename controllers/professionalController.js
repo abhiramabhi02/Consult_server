@@ -346,6 +346,7 @@ const documentUpload = async(req,res)=>{
   }
 }
 
+
 module.exports = {
   professionalRegistration,
   professionalLogin,

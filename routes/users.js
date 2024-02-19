@@ -42,4 +42,10 @@ router.post('/getconferenceappointment', userController.getAppointmentData)
 
 router.post('/downloaddocument', userController.downloadDocument)
 
+router.post('/forgotpassword', userController.forgotPassword)
+
+router.post('/forgotpasswordverify', userController.verifyForgotOtp)
+
+router.post('/forgotchangepassword', userController.changePassword)
+
 module.exports = router;
